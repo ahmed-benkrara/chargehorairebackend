@@ -13,6 +13,7 @@ public class Encryption {
     private static final String MODE = "ECB";
     private static final String PADDING = "PKCS5Padding";
     private static final String CHARSET = "UTF-8";
+    public static final String KEY = "y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaN";
 
     public static String encrypt(String message, String key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(ALGORITHM + "/" + MODE + "/" + PADDING);

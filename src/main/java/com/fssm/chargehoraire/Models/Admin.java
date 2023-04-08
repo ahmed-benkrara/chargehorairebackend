@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@DiscriminatorValue(value = "teacher")
+@DiscriminatorValue(value = "admin")
 public class Admin extends User{
     //0 light, 1 dark
     private int theme;

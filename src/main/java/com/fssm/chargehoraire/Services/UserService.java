@@ -12,10 +12,6 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public List<User> getAll(){
-        return userRepository.findAll();
-    }
-
     public Boolean isUserPresent(String email){
         return userRepository.findByEmail(email) != null;
     }
