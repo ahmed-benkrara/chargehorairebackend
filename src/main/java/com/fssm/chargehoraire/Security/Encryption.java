@@ -31,4 +31,8 @@ public class Encryption {
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         return new String(decryptedBytes);
     }
+
+    public static Boolean validatePassword(String password, String dbpassword) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return decrypt(dbpassword, KEY).equalsIgnoreCase(password);
+    }
 }

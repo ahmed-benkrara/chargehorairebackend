@@ -17,6 +17,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -28,14 +31,20 @@ public class TeacherController {
 
     @PostMapping("/teacher/register")
     public ResponseEntity<Object> register(@RequestBody Teacher teacher) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
         if(!userService.isUserPresent(teacher.getEmail())){
             if(teacherService.register(teacher) != null){
-                return ResponseEntity.status(HttpStatus.CREATED).body("Teacher Created Successfully");
+                response.put("message", "Teacher Created Successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
             }else{
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong ! please try again later.");
+                response.put("message","Something went wrong ! please try again later.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
             }
         }else{
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("We already have a user with this email !");
+            response.put("message","We already have a user with this email !");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
 }
