@@ -14,7 +14,4 @@ public class AdminService {
         return adminRepository.save(admin);
     }
 
-    public Admin readByEmailAndPassword(String email, String password){
-        return adminRepository.findByEmailAndPassword(email, password);
-    }
 }

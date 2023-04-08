@@ -18,4 +18,6 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    //token to be sent on email to validate if password is forgotten
+    private String token;
 }

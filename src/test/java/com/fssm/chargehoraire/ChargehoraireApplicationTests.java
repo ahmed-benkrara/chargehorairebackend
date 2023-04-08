@@ -1,10 +1,7 @@
 package com.fssm.chargehoraire;
 
 import com.fssm.chargehoraire.Models.*;
-import com.fssm.chargehoraire.Repositories.AdminTaskRepository;
-import com.fssm.chargehoraire.Repositories.DepartmentRepository;
-import com.fssm.chargehoraire.Repositories.TeacherRepository;
-import com.fssm.chargehoraire.Repositories.YearRepository;
+import com.fssm.chargehoraire.Repositories.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +17,8 @@ class ChargehoraireApplicationTests {
 	private AdminTaskRepository adminTaskRepository;
 	@Autowired
 	private YearRepository yearRepository;
+	@Autowired
+	private AdminRepository adminRepository;
 
 	@Test
 	void contextLoads() {
@@ -31,6 +30,14 @@ class ChargehoraireApplicationTests {
 		teacher.setPicture("");
 		teacher.setCin("HH123");
 		teacherRepository.save(teacher);*/
+
+		/*Admin admin = new Admin();
+		admin.setEmail("admin@admin.com");
+		admin.setPassword("1234");
+		admin.setFirstName("admin");
+		admin.setLastName("admin");
+		admin.setTheme(0);
+		adminRepository.save(admin);*/
 
 /*		Department department = new Department();
 		department.setName("Department1");
