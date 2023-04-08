@@ -1,7 +1,11 @@
 package com.fssm.chargehoraire.Controllers;
 
+import com.fssm.chargehoraire.Models.User;
+import com.fssm.chargehoraire.Requests.EmailTokenRequest;
+import com.fssm.chargehoraire.Requests.ForgotRequest;
 import com.fssm.chargehoraire.Requests.LoginRequest;
 import com.fssm.chargehoraire.Services.UserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +46,50 @@ public class UserController {
             token.put("token", result);
             token.put("timestamps", time);
             return ResponseEntity.ok(token);
+        }
+    }
+
+    @PostMapping("/forgot")
+    public ResponseEntity<Object> forgot(@RequestBody ForgotRequest forgotRequest) throws MessagingException {
+        User user = userService.forgotPassword(forgotRequest.getEmail(), forgotRequest.getRoute());
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
+        if(user != null){
+            response.put("message","We have Sent you a confirmation mail.");
+            return ResponseEntity.ok(response);
+        }else {
+            response.put("message","There is no user with this email !");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @PostMapping("/isEmailTokenValid")
+    public ResponseEntity<Object> isEmailTokenValid(@RequestBody EmailTokenRequest emailTokenRequest){
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
+        if(userService.isEmailTokenValid(emailTokenRequest.getEmail(), emailTokenRequest.getToken())){
+            response.put("message", "Token is valid");
+            return ResponseEntity.ok(response);
+        }else{
+            response.put("message", "Token isn't valid");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @PostMapping("/setNewPassword")
+    public ResponseEntity<Object> setNewPassword(@RequestBody LoginRequest request) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        User user = userService.setNewPassword(request.getEmail(), request.getPassword());
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
+        if(user != null){
+            response.put("message", "Password updated successfully !");
+            return ResponseEntity.ok(response);
+        }else{
+            response.put("message", "This link isn't valid");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 }

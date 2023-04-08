@@ -1,5 +1,6 @@
 package com.fssm.chargehoraire;
 
+import com.fssm.chargehoraire.Security.EmailToken;
 import com.fssm.chargehoraire.Services.EmailSenderService;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
@@ -17,5 +18,10 @@ public class MailTests {
     @EventListener(ApplicationReadyEvent.class)
     void email() throws MessagingException {
         emailSenderService.sendEmail("ahmed.benkrara11@gmail.com", "test", "<a href='www.facebook.com'>test link</a>");
+    }
+
+    @Test
+    void token(){
+        System.out.println(EmailToken.generateToken(20));
     }
 }
