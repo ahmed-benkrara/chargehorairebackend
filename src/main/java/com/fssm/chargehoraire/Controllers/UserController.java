@@ -4,6 +4,7 @@ import com.fssm.chargehoraire.Models.User;
 import com.fssm.chargehoraire.Requests.EmailTokenRequest;
 import com.fssm.chargehoraire.Requests.ForgotRequest;
 import com.fssm.chargehoraire.Requests.LoginRequest;
+import com.fssm.chargehoraire.Requests.TokenRequest;
 import com.fssm.chargehoraire.Services.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,34 @@ public class UserController {
         }else{
             response.put("message", "This link isn't valid");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @PostMapping("/verifyAuth")
+    public ResponseEntity<Object> verifyAuth(@RequestBody TokenRequest tokenRequest) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
+        if(userService.isAuth(tokenRequest.getToken())){
+            response.put("message", "User is Authentified");
+            return ResponseEntity.ok(response);
+        }else{
+            response.put("message", "User isn't Authentified");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+
+    @GetMapping("/getRole/{email}")
+    public ResponseEntity<Object> getRole(@PathVariable String email){
+        String time = String.valueOf(new Date().getTime());
+        Map<String, String> response = new HashMap<>();
+        response.put("timestamps", time);
+        if(userService.getUserRole(email) == null){
+            response.put("message", "Something went wrong ! please try again later.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }else{
+            response.put("role", userService.getUserRole(email));
+            return ResponseEntity.ok(response);
         }
     }
 }

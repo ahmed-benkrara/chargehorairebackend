@@ -24,6 +24,8 @@ public class UserService {
     @Autowired
     private EmailSenderService emailSenderService;
 
+    private TokenSigner tokenSigner = new TokenSigner(Encryption.KEY);
+
     public Boolean isUserPresent(String email){
         return userRepository.findByEmail(email) != null;
     }
@@ -38,7 +40,7 @@ public class UserService {
                 Date nowPlus24 = new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000));
                 String token = "";
                 String at = String.valueOf(now.getTime());
-                String exp = String.valueOf(nowPlus24);
+                String exp = String.valueOf(nowPlus24.getTime());
                 token = Encryption.encrypt(email, Encryption.KEY) + "." + Encryption.encrypt(at, Encryption.KEY) + "." + Encryption.encrypt(exp, Encryption.KEY);
                 token = signer.signToken(token);
                 return token;
@@ -86,4 +88,34 @@ public class UserService {
             return null;
         }
     }
+
+    //access token validity
+    public Boolean isTokenValid(String token) throws NoSuchAlgorithmException, InvalidKeyException {
+        return tokenSigner.verifyToken(token);
+    }
+
+    public Boolean isTokenExpired(String token) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        String[] claims = token.split("\\.");
+        String email = Encryption.decrypt(claims[0], Encryption.KEY);
+        String exp = Encryption.decrypt(claims[2], Encryption.KEY);
+        Date now = new Date();
+        return Long.parseLong(exp) > now.getTime() && isUserPresent(email);
+    }
+
+    public Boolean isAuth(String token) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+        return isTokenValid(token) && isTokenExpired(token);
+    }
+
+    public String getUserRole(String email){
+        if(isUserPresent(email)){
+             if(userRepository.getTypeByEmail(email).length > 0){
+                 return String.valueOf(userRepository.getTypeByEmail(email)[0]);
+             }else{
+                 return null;
+             }
+        }else{
+            return null;
+        }
+    }
+
 }
