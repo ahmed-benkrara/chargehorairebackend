@@ -20,9 +20,12 @@ class ChargehoraireApplicationTests {
 	@Autowired
 	private AdminRepository adminRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Test
 	void contextLoads() {
-		/*Teacher teacher = new Teacher();
+        /*Teacher teacher = new Teacher();
 		teacher.setFirstName("test");
 		teacher.setLastName("test");
 		teacher.setEmail("test@test.com");
@@ -31,7 +34,7 @@ class ChargehoraireApplicationTests {
 		teacher.setCin("HH123");
 		teacherRepository.save(teacher);*/
 
-		/*Admin admin = new Admin();
+        /*Admin admin = new Admin();
 		admin.setEmail("admin@admin.com");
 		admin.setPassword("1234");
 		admin.setFirstName("admin");
@@ -46,7 +49,7 @@ class ChargehoraireApplicationTests {
 /*		Year year = new Year();
 		year.setName("2022-2023");
 		yearRepository.save(year);*/
-		/*Year year = yearRepository.findById(Long.valueOf("2")).get();
+        /*Year year = yearRepository.findById(Long.valueOf("2")).get();
 
 	  	AdminTaskKey key = new AdminTaskKey();
 		key.setDepartment_id(1);
@@ -56,6 +59,7 @@ class ChargehoraireApplicationTests {
 		adminTask.setKey(key);
 		adminTask.setHours(15);
 		adminTaskRepository.save(adminTask);*/
+		//System.out.println(userRepository.getTypeByEmail("ahmed.benkrara11@gmail.com").length);
 	}
 
 }

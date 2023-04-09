@@ -67,6 +67,9 @@ public class UserService {
     public Boolean isEmailTokenValid(String email, String token){
         User user = userRepository.findByEmail(email);
         if(user != null){
+            System.out.println(user.getToken().equals(token));
+            System.out.println("token : "+user.getToken());
+            System.out.println("tokenreq : "+token);
             return user.getToken().equals(token);
         }else{
             return false;
@@ -77,6 +80,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         if(user != null){
             user.setPassword(Encryption.encrypt(newpass, Encryption.KEY));
+            user.setToken("");
             return userRepository.save(user);
         }else{
             return null;
