@@ -2,9 +2,16 @@ package com.fssm.chargehoraire;
 
 import com.fssm.chargehoraire.Models.*;
 import com.fssm.chargehoraire.Repositories.*;
+import com.fssm.chargehoraire.Security.Encryption;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @SpringBootTest
 class ChargehoraireApplicationTests {
@@ -60,6 +67,19 @@ class ChargehoraireApplicationTests {
 		adminTask.setHours(15);
 		adminTaskRepository.save(adminTask);*/
 		//System.out.println(userRepository.getTypeByEmail("ahmed.benkrara11@gmail.com").length);
+		try {
+			System.out.println(Encryption.encrypt("ahmed.benkrara11@gmail.com", Encryption.KEY));
+		} catch (NoSuchPaddingException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		} catch (InvalidKeyException e) {
+			throw new RuntimeException(e);
+		} catch (BadPaddingException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalBlockSizeException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

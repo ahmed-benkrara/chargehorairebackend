@@ -5,6 +5,7 @@ import com.fssm.chargehoraire.Requests.EmailTokenRequest;
 import com.fssm.chargehoraire.Requests.ForgotRequest;
 import com.fssm.chargehoraire.Requests.LoginRequest;
 import com.fssm.chargehoraire.Requests.TokenRequest;
+import com.fssm.chargehoraire.Security.Encryption;
 import com.fssm.chargehoraire.Services.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,12 +115,18 @@ public class UserController {
         String time = String.valueOf(new Date().getTime());
         Map<String, String> response = new HashMap<>();
         response.put("timestamps", time);
-        if(userService.getUserRole(email) == null){
-            response.put("message", "Something went wrong ! please try again later.");
+        try {
+            email = Encryption.decrypt(email, Encryption.KEY);
+            if(userService.getUserRole(email) == null){
+                response.put("message", "Something went wrong ! please try again later.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }else{
+                response.put("role", userService.getUserRole(email));
+                return ResponseEntity.ok(response);
+            }
+        } catch (Exception e) {
+            response.put("message", "Something went wrong !");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }else{
-            response.put("role", userService.getUserRole(email));
-            return ResponseEntity.ok(response);
         }
     }
 }
