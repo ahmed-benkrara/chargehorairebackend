@@ -19,5 +19,5 @@ public class ChargehoraireApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ChargehoraireApplication.class, args);
 	}
-	
+
 }

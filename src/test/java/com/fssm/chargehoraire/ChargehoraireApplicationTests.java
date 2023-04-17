@@ -19,6 +19,8 @@ class ChargehoraireApplicationTests {
 	@Autowired
 	private TeacherRepository teacherRepository;
 	@Autowired
+	private TeachesRepository teachesRepository;
+	@Autowired
 	private DepartmentRepository departmentRepository;
 	@Autowired
 	private AdminTaskRepository adminTaskRepository;
@@ -67,19 +69,20 @@ class ChargehoraireApplicationTests {
 		adminTask.setHours(15);
 		adminTaskRepository.save(adminTask);*/
 		//System.out.println(userRepository.getTypeByEmail("ahmed.benkrara11@gmail.com").length);
-		try {
-			System.out.println(Encryption.encrypt("ahmed.benkrara11@gmail.com", Encryption.KEY));
-		} catch (NoSuchPaddingException e) {
-			throw new RuntimeException(e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		} catch (InvalidKeyException e) {
-			throw new RuntimeException(e);
-		} catch (BadPaddingException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalBlockSizeException e) {
-			throw new RuntimeException(e);
-		}
+//		try {
+//			System.out.println(Encryption.encrypt("ahmed.benkrara11@gmail.com", Encryption.KEY));
+//		} catch (NoSuchPaddingException e) {
+//			throw new RuntimeException(e);
+//		} catch (NoSuchAlgorithmException e) {
+//			throw new RuntimeException(e);
+//		} catch (InvalidKeyException e) {
+//			throw new RuntimeException(e);
+//		} catch (BadPaddingException e) {
+//			throw new RuntimeException(e);
+//		} catch (IllegalBlockSizeException e) {
+//			throw new RuntimeException(e);
+//		}
+		System.out.println(teachesRepository.getTeachesForType(5,"2021-2022"));
 	}
 
 }
