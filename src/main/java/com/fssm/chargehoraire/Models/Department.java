@@ -1,8 +1,7 @@
 package com.fssm.chargehoraire.Models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,12 +18,14 @@ public class Department {
     private long id;
     @Column(unique = true)
     private String name;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department",cascade = {} ,orphanRemoval = false)
+    @JsonIgnoreProperties({"department","modules"})
     private List<Field> fields = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {})
     @JoinTable(name = "AdminTask",
             joinColumns = @JoinColumn(name = "department_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
+    @JsonIgnore
     private Set<Teacher> teachers = new HashSet<>();
 }

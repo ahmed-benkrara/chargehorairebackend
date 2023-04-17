@@ -1,10 +1,7 @@
 package com.fssm.chargehoraire.Controllers;
 
-import com.fssm.chargehoraire.Models.Department;
-import com.fssm.chargehoraire.Models.Field;
-import com.fssm.chargehoraire.Requests.FieldRequest;
-import com.fssm.chargehoraire.Requests.FieldUpdateRequest;
-import com.fssm.chargehoraire.Services.FieldService;
+import com.fssm.chargehoraire.Models.TypeH;
+import com.fssm.chargehoraire.Services.TypeHService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,41 +15,41 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
-public class FieldController {
+public class TypehController {
     @Autowired
-    private FieldService fieldService;
+    private TypeHService typeHService;
 
-    @PostMapping("/field/create")
-    public ResponseEntity<Object> create(@RequestBody FieldRequest field){
+    @PostMapping("/typeh/create")
+    public ResponseEntity<Object> create(@RequestBody TypeH typeH){
         String time = String.valueOf(new Date().getTime());
         Map<String, String> response = new HashMap<>();
         response.put("timestamps", time);
-        if(fieldService.create(field) != null){
-            response.put("message", "Field Created Successfully");
+        if(typeHService.create(typeH) != null){
+            response.put("message", "TypeH Created Successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }else{
-            response.put("message", "Field already exists");
+            response.put("message", "TypeH already exists");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
-    @GetMapping("/fields")
-    public List<Field> getAll(){
-        return fieldService.getAll();
+    @GetMapping("/typehs")
+    public List<TypeH> getAll(){
+        return typeHService.getAll();
     }
 
-    @GetMapping("/field/{id}")
-    public Field getField(@PathVariable("id") int id){
-        return fieldService.getById(id);
+    @GetMapping("/typeh/{id}")
+    public TypeH getField(@PathVariable("id") int id){
+        return typeHService.getById(id);
     }
 
-    @PutMapping("/field/update")
-    public ResponseEntity<Object> update(@RequestBody FieldUpdateRequest field){
+    @PutMapping("/typeh/update")
+    public ResponseEntity<Object> update(@RequestBody TypeH typeH){
         String time = String.valueOf(new Date().getTime());
         Map<String, String> response = new HashMap<>();
         response.put("timestamps", time);
-        if(fieldService.update(field) != null){
-            response.put("message", "Field updated successfully.");
+        if(typeHService.update(typeH) != null){
+            response.put("message", "TypeH updated successfully.");
             return ResponseEntity.ok(response);
         }else{
             response.put("message", "Something went wrong please try again later !");
@@ -60,13 +57,14 @@ public class FieldController {
         }
     }
 
-    @DeleteMapping("/field/delete/{id}")
+    @DeleteMapping("/typeh/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id){
         try{
-            fieldService.delete(id);
+            typeHService.delete(id);
             return ResponseEntity.noContent().build();
         }catch(Exception e){
             return ResponseEntity.notFound().build();
         }
     }
+
 }

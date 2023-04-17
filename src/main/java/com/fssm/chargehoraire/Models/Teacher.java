@@ -1,5 +1,6 @@
 package com.fssm.chargehoraire.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,8 +17,10 @@ import java.util.Set;
 public class Teacher extends User{
     @Column(unique = true)
     private String cin;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "teachers")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "teachers",cascade = {})
+    @JsonIgnore
     private Set<Department> departments = new HashSet<>();
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "teachers")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "teachers",cascade = {})
+    @JsonIgnore
     private Set<Module> modules = new HashSet<>();
 }

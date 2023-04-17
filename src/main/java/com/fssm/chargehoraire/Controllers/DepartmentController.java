@@ -63,6 +63,7 @@ public class DepartmentController {
             departmentService.delete(id);
             return ResponseEntity.noContent().build();
         }catch(Exception e){
+            System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }

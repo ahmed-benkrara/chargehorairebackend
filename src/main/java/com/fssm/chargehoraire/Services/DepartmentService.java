@@ -51,6 +51,10 @@ public class DepartmentService {
     }
 
     public void delete(int id){
-        departmentRepository.deleteById(Long.valueOf(id));
+        //departmentRepository.deleteById(Long.valueOf(id));
+        Optional<Department> department = departmentRepository.findById(Long.valueOf(id));
+        if(department.isPresent()){
+            departmentRepository.delete(department.get());
+        }
     }
 }

@@ -1,10 +1,7 @@
 package com.fssm.chargehoraire.Controllers;
 
-import com.fssm.chargehoraire.Models.Department;
-import com.fssm.chargehoraire.Models.Field;
-import com.fssm.chargehoraire.Requests.FieldRequest;
-import com.fssm.chargehoraire.Requests.FieldUpdateRequest;
-import com.fssm.chargehoraire.Services.FieldService;
+import com.fssm.chargehoraire.Models.Year;
+import com.fssm.chargehoraire.Services.YearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,41 +15,42 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
-public class FieldController {
-    @Autowired
-    private FieldService fieldService;
+public class YearController {
 
-    @PostMapping("/field/create")
-    public ResponseEntity<Object> create(@RequestBody FieldRequest field){
+    @Autowired
+    private YearService yearService;
+
+    @PostMapping("/year/create")
+    public ResponseEntity<Object> create(@RequestBody Year year){
         String time = String.valueOf(new Date().getTime());
         Map<String, String> response = new HashMap<>();
         response.put("timestamps", time);
-        if(fieldService.create(field) != null){
-            response.put("message", "Field Created Successfully");
+        if(yearService.create(year) != null){
+            response.put("message", "Year Created Successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }else{
-            response.put("message", "Field already exists");
+            response.put("message", "Year already exists");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
-    @GetMapping("/fields")
-    public List<Field> getAll(){
-        return fieldService.getAll();
+    @GetMapping("/years")
+    public List<Year> getAll(){
+        return yearService.getAll();
     }
 
-    @GetMapping("/field/{id}")
-    public Field getField(@PathVariable("id") int id){
-        return fieldService.getById(id);
+    @GetMapping("/year/{id}")
+    public Year getField(@PathVariable("id") int id){
+        return yearService.getById(id);
     }
 
-    @PutMapping("/field/update")
-    public ResponseEntity<Object> update(@RequestBody FieldUpdateRequest field){
+    @PutMapping("/year/update")
+    public ResponseEntity<Object> update(@RequestBody Year year){
         String time = String.valueOf(new Date().getTime());
         Map<String, String> response = new HashMap<>();
         response.put("timestamps", time);
-        if(fieldService.update(field) != null){
-            response.put("message", "Field updated successfully.");
+        if(yearService.update(year) != null){
+            response.put("message", "Year updated successfully.");
             return ResponseEntity.ok(response);
         }else{
             response.put("message", "Something went wrong please try again later !");
@@ -60,13 +58,14 @@ public class FieldController {
         }
     }
 
-    @DeleteMapping("/field/delete/{id}")
+    @DeleteMapping("/year/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id){
         try{
-            fieldService.delete(id);
+            yearService.delete(id);
             return ResponseEntity.noContent().build();
         }catch(Exception e){
             return ResponseEntity.notFound().build();
         }
     }
+
 }
