@@ -82,7 +82,7 @@ class ChargehoraireApplicationTests {
 //		} catch (IllegalBlockSizeException e) {
 //			throw new RuntimeException(e);
 //		}
-		System.out.println(teachesRepository.getTeachesForType(5,"2021-2022"));
+		//System.out.println(teachesRepository.getTeachesForType(5,"2021-2022"));
 	}
 
 }

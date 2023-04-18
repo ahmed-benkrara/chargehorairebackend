@@ -118,4 +118,14 @@ public class UserService {
         }
     }
 
+    public String getUserName(String email){
+        if(userRepository.findByEmail(email) != null){
+            User user = userRepository.findByEmail(email);
+            String name = user.getFirstName() + " " + user.getLastName();
+            return name;
+        }else{
+            return null;
+        }
+    }
+
 }

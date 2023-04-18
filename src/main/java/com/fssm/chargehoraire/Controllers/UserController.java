@@ -129,4 +129,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PostMapping("/getUserName")
+    public ResponseEntity<Object> getUserNameByEmail(@RequestBody TokenRequest token) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        Map map = new HashMap();
+        map.put("message", this.userService.getUserName(token.getToken()));
+        return ResponseEntity.ok(map);
+    }
 }
